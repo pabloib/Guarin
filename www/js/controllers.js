@@ -13,31 +13,81 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
+    id: '1',
     scope: $scope
   }).then(function(modal) {
-    $scope.modal = modal;
+    $scope.oModal1 = modal;
   });
-
+  $ionicModal.fromTemplateUrl('templates/signup.html', {
+    id: '2',
+    scope: $scope
+  }).then(function(modal) {
+    $scope.oModal2 = modal;
+  });
   // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
+  // $scope.closeLogin = function() {
+  //   $scope.oModal1.hide();
+  // };
+  $scope.closeLogin = function(index) {
+      if (index == 1) $scope.oModal1.hide();
+      else $scope.oModal2.hide();
+    };
   // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };  
+  // $scope.login = function() {
+  //   $scope.oModal1.show();
+    
+  // };  
+
+  $scope.login = function(index) {
+      if (index == 1) $scope.oModal1.show();
+      else $scope.oModal2.show();
+    };
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
-
+    var ref = new Firebase("https://guarinco.firebaseio.com");
+    ref.authWithPassword({
+        email    : $scope.loginData.username,
+        password : $scope.loginData.password
+      }, function(error, authData) {
+        if (error) {
+          console.log("Login Failed!", error);
+        } else {
+          console.log("Authenticated successfully with payload:", authData);
+        }
+      });
     // Simulate a login delay. Remove this and replace with your login
     // code if using a login system
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
   };
+
+  ////////////////////////
+  $scope.doSign_up = function() {
+    console.log('Doing login', $scope.loginData);
+    var ref = new Firebase("https://guarinco.firebaseio.com");
+    ref.createUser({
+      email: $scope.loginData.username,
+      password : $scope.loginData.password,
+      cellphone: $scope.loginData.cellphone
+    }, function(error, userData) {
+      if (error) {
+        console.log("Error creating user:", error);
+      } else {
+        console.log("Successfully created user account with uid:", userData.uid);
+      }
+    });
+    // Simulate a login delay. Remove this and replace with your login
+    // code if using a login system
+    $timeout(function() {
+      $scope.closeLogin();
+    }, 1000);
+  };
+
+  ///////////////////////
+
 })
 
 ////////
@@ -81,6 +131,22 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
 //   }
 // })
 
+.controller('SignupCtrl', function($scope, Items){
+  var ref = new Firebase("https://guarinco.firebaseio.com");
+  $scope.createUser=function(){ 
+    ref.createUser({
+    email    : loginData.username,
+    password : loginData.password
+  }, function(error, userData) {
+    if (error) {
+      console.log("Error creating user:", error);
+    } else {
+      console.log("Successfully created user account with uid:", userData.uid);
+    }
+  });};
+ 
+})
+
 
 .controller("OrderCtrl", function($scope, Items) {
 
@@ -95,7 +161,7 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
       });
 
     }
-    var ref = new Firebase("https://guarinco.firebaseio.com");
+    // var ref = new Firebase("https://guarinco.firebaseio.com");
     // ref.createUser({
     //   email    : "bobtowny@firebase.com",
     //   password : "correcthorsebatterystaple"
@@ -106,16 +172,16 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
     //     console.log("Successfully created user account with uid:", userData.uid);
     //   }
     // });
-    ref.authWithPassword({
-  email    : "bobtony@firebase.com",
-  password : "correcthorsebatterystaple"
-}, function(error, authData) {
-  if (error) {
-    console.log("Login Failed!", error);
-  } else {
-    console.log("Authenticated successfully with payload:", authData);
-  }
-});
+//     ref.authWithPassword({
+//   email    : "bobtony@firebase.com",
+//   password : "correcthorsebatterystaple"
+// }, function(error, authData) {
+//   if (error) {
+//     console.log("Login Failed!", error);
+//   } else {
+//     console.log("Authenticated successfully with payload:", authData);
+//   }
+// });
   };
 
 });
