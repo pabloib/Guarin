@@ -26,7 +26,7 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
   // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
-  };
+  };  
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
@@ -39,6 +39,15 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
     }, 1000);
   };
 })
+
+////////
+
+
+///////
+
+
+
+
 
 // .controller('PlaylistsCtrl', function($scope) {
 //   $scope.playlists = [
@@ -60,9 +69,19 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
     $scope.session = Session.get({sessionId: $stateParams.sessionId});
 })
 .factory("Items", function($firebaseArray) {
-  var itemsRef = new Firebase("https://guarinco.firebaseio.com/items");
+  var itemsRef = new Firebase("https://guarinco.firebaseio.com");
   return $firebaseArray(itemsRef);
 })
+
+// .controller('SignupCtrl', function($scope, Items){
+//   $scope.items = Items;
+//   $scope.createUser=function(){
+//     email    :  $scope.loginData.username,
+//     password :  $scope.loginData.password
+//   }
+// })
+
+
 .controller("OrderCtrl", function($scope, Items) {
 
   $scope.items = Items;
@@ -70,9 +89,33 @@ angular.module('starter.controllers', ['starter.services', 'firebase'])
   $scope.addItem = function() {
     var name = 1;
     if (name) {
-      $scope.items.$add({
+      $scope.items.$add(
+      {
         "name": +1
       });
+
     }
+    var ref = new Firebase("https://guarinco.firebaseio.com");
+    // ref.createUser({
+    //   email    : "bobtowny@firebase.com",
+    //   password : "correcthorsebatterystaple"
+    // }, function(error, userData) {
+    //   if (error) {
+    //     console.log("Error creating user:", error);
+    //   } else {
+    //     console.log("Successfully created user account with uid:", userData.uid);
+    //   }
+    // });
+    ref.authWithPassword({
+  email    : "bobtony@firebase.com",
+  password : "correcthorsebatterystaple"
+}, function(error, authData) {
+  if (error) {
+    console.log("Login Failed!", error);
+  } else {
+    console.log("Authenticated successfully with payload:", authData);
+  }
+});
   };
+
 });
