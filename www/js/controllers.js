@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['starter.services'])
+angular.module('starter.controllers', ['starter.services', 'firebase'])
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -50,6 +50,7 @@ angular.module('starter.controllers', ['starter.services'])
 //     { title: 'Cowbell', id: 6 }
 //   ];
 // })
+
 .controller('SessionsCtrl', function($scope, Session) {
     $scope.sessions = Session.query();
 })
@@ -57,4 +58,21 @@ angular.module('starter.controllers', ['starter.services'])
 // });
 .controller('SessionCtrl', function($scope, $stateParams, Session) {
     $scope.session = Session.get({sessionId: $stateParams.sessionId});
+})
+.factory("Items", function($firebaseArray) {
+  var itemsRef = new Firebase("https://guarinco.firebaseio.com/items");
+  return $firebaseArray(itemsRef);
+})
+.controller("OrderCtrl", function($scope, Items) {
+
+  $scope.items = Items;
+
+  $scope.addItem = function() {
+    var name = 1;
+    if (name) {
+      $scope.items.$add({
+        "name": +1
+      });
+    }
+  };
 });
