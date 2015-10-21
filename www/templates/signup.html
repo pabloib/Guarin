@@ -1,29 +1,26 @@
 <ion-modal-view>
   <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
+    <h1 class="title">Signup</h1>
   </ion-header-bar>
   <ion-content>
-    <form ng-submit="doSign_up(2)">
+    <form ng-submit="doSignup()">
       <div class="list">
         <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="signupData.username" required='' autocomplete='off'>
+        </label>
+        <label class="item item-input">
           <span class="input-label">Email</span>
-          <input type="text" ng-model="loginData.username">
+          <input type="text" ng-model="signupData.email" required='' autocomplete='off'>
         </label>
         <label class="item item-input">
           <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Cellphone</span>
-          <input type="telephone" ng-model="loginData.password">
+          <input type="password" ng-model="signupData.password" required='' autocomplete='off'>
         </label>
         <label class="item">
-          <button class="button button-block button-positive" ng-click="createUser()" type="submit">Log in</button>
+          <button class="button button-block button-positive" ng-click="doSignup()" type="submit">Signup</button>
         </label>
       </div>
     </form>
   </ion-content>
-</ion-modal-view>
+</ion-modal-view> 
